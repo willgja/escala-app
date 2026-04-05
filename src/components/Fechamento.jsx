@@ -109,44 +109,46 @@ export default function Fechamento() {
             Fechamento — {MESES[mes]} {ano}
           </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Colaborador</th>
-                <th>Matrícula</th>
-                <th>Diurnas</th>
-                <th>Noturnas</th>
-                <th>Total Diárias</th>
-                <th>Valor (R$ {Number(valorDiaria).toLocaleString('pt-BR', { minimumFractionDigits: 2 })})</th>
-              </tr>
-            </thead>
-            <tbody>
-              {colaboradores.map(c => {
-                const d = contagem[c.id]?.d || 0
-                const n = contagem[c.id]?.n || 0
-                const t = d + n
-                if (t === 0) return null; // Melhor visualização não mostrar quem tem 0 no mês
-                const v = t * valorDiaria
-                return (
-                  <tr key={c.id}>
-                    <td style={{ fontWeight: 500 }}>{c.nome}</td>
-                    <td>{c.mat || '-'}</td>
-                    <td><span className="badge badge-d">{d}</span></td>
-                    <td><span className="badge badge-n">{n}</span></td>
-                    <td><span className="badge-count">{t}</span></td>
-                    <td><span className="badge-money">{fmtBRL(v)}</span></td>
-                  </tr>
-                )
-              })}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan={4} style={{ textAlign: 'right', color: '#6b6b67', fontSize: 13 }}>Total do período</td>
-                <td><span className="badge-count">{totalDiarias}</span></td>
-                <td><span className="badge-money">{fmtBRL(totalValor)}</span></td>
-              </tr>
-            </tfoot>
-          </table>
+          <div className="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Colaborador</th>
+                  <th>Matrícula</th>
+                  <th>Diurnas</th>
+                  <th>Noturnas</th>
+                  <th>Total Diárias</th>
+                  <th>Valor (R$ {Number(valorDiaria).toLocaleString('pt-BR', { minimumFractionDigits: 2 })})</th>
+                </tr>
+              </thead>
+              <tbody>
+                {colaboradores.map(c => {
+                  const d = contagem[c.id]?.d || 0
+                  const n = contagem[c.id]?.n || 0
+                  const t = d + n
+                  if (t === 0) return null; // Melhor visualização não mostrar quem tem 0 no mês
+                  const v = t * valorDiaria
+                  return (
+                    <tr key={c.id}>
+                      <td style={{ fontWeight: 500 }}>{c.nome}</td>
+                      <td>{c.mat || '-'}</td>
+                      <td><span className="badge badge-d">{d}</span></td>
+                      <td><span className="badge badge-n">{n}</span></td>
+                      <td><span className="badge-count">{t}</span></td>
+                      <td><span className="badge-money">{fmtBRL(v)}</span></td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={4} style={{ textAlign: 'right', color: '#6b6b67', fontSize: 13 }}>Total do período</td>
+                  <td><span className="badge-count">{totalDiarias}</span></td>
+                  <td><span className="badge-money">{fmtBRL(totalValor)}</span></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
 
           <div className="grand-total">
             <span className="grand-total-label">Total geral a pagar — {MESES[mes]} {ano}</span>

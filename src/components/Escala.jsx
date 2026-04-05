@@ -106,37 +106,39 @@ export default function Escala() {
         <div className="empty-state">Nenhum colaborador cadastrado.</div>
       ) : (
         <>
-          <div className="escala-grid" style={gridStyle}>
-            <div className="eg-cell eg-header">Colaborador</div>
-            {days.map(d => (
-              <div key={d.key} className="eg-cell eg-header">{d.label}</div>
-            ))}
+          <div className="table-responsive">
+            <div className="escala-grid" style={gridStyle}>
+              <div className="eg-cell eg-header">Colaborador</div>
+              {days.map(d => (
+                <div key={d.key} className="eg-cell eg-header">{d.label}</div>
+              ))}
 
-            {lista.map(c => (
-              <div key={c.id} style={{display: 'contents'}}>
-                <div className="eg-cell eg-name">{c.nome}</div>
-                {days.map(d => {
-                  const sd = getSlot(c.id, d.key, 'd')
-                  const sn = getSlot(c.id, d.key, 'n')
-                  return (
-                    <div key={d.key} className="eg-cell">
-                      <div className="eg-turno">
-                        <div
-                          className={`slot ${sd ? 'slot-d' : 'slot-empty'}`}
-                          onClick={() => toggleSlot(c.id, d.key, 'd')}
-                          title={sd ? 'Remover diurno' : 'Escalar diurno'}
-                        >D</div>
-                        <div
-                          className={`slot ${sn ? 'slot-n' : 'slot-empty'}`}
-                          onClick={() => toggleSlot(c.id, d.key, 'n')}
-                          title={sn ? 'Remover noturno' : 'Escalar noturno'}
-                        >N</div>
+              {lista.map(c => (
+                <div key={c.id} style={{display: 'contents'}}>
+                  <div className="eg-cell eg-name">{c.nome}</div>
+                  {days.map(d => {
+                    const sd = getSlot(c.id, d.key, 'd')
+                    const sn = getSlot(c.id, d.key, 'n')
+                    return (
+                      <div key={d.key} className="eg-cell">
+                        <div className="eg-turno">
+                          <div
+                            className={`slot ${sd ? 'slot-d' : 'slot-empty'}`}
+                            onClick={() => toggleSlot(c.id, d.key, 'd')}
+                            title={sd ? 'Remover diurno' : 'Escalar diurno'}
+                          >D</div>
+                          <div
+                            className={`slot ${sn ? 'slot-n' : 'slot-empty'}`}
+                            onClick={() => toggleSlot(c.id, d.key, 'n')}
+                            title={sn ? 'Remover noturno' : 'Escalar noturno'}
+                          >N</div>
+                        </div>
                       </div>
-                    </div>
-                  )
-                })}
-              </div>
-            ))}
+                    )
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
 
           <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 8 }}>Resumo da semana</div>
