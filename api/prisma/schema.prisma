@@ -1,0 +1,42 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Colaborador {
+  id        String   @id @default(uuid())
+  nome      String
+  mat       String?
+  func      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  escalas   Escala[]
+}
+
+model Escala {
+  id            String      @id @default(uuid())
+  colaboradorId String
+  colaborador   Colaborador @relation(fields: [colaboradorId], references: [id], onDelete: Cascade)
+  data          String
+  turno         String
+  createdAt     DateTime    @default(now())
+
+  @@unique([colaboradorId, data, turno])
+}
+
+model Configuracao {
+  id    String @id @default(uuid())
+  chave String @unique
+  valor Float
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
