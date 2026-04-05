@@ -105,54 +105,58 @@ export default function Fechamento() {
         <div className="empty-state">Nenhum colaborador cadastrado.</div>
       ) : (
         <>
-          <div style={{ fontSize: 15, fontWeight: 500, marginBottom: 12 }}>
-            Fechamento — {MESES[mes]} {ano}
+          <div className="resumo-title" style={{ marginTop: '32px' }}>Resumo do Mês</div>
+          <div className="resumo-grid">
+            <div className="resumo-box">
+              <span className="resumo-label">Dias Trabalhados</span>
+              <span className="resumo-value clamp">{totalDiarias}</span>
+            </div>
+            <div className="resumo-box">
+              <span className="resumo-label">Acionamentos</span>
+              <span className="resumo-value clamp">{colaboradores.filter(c => ((contagem[c.id]?.d || 0) + (contagem[c.id]?.n || 0)) > 0).length}</span>
+            </div>
+            <div className="resumo-box">
+              <span className="resumo-label">Horas Totais</span>
+              <span className="resumo-value accent clamp">A calcular</span>
+            </div>
+            <div className="resumo-box">
+              <span className="resumo-label">Total a Receber</span>
+              <span className="resumo-value green clamp">{fmtBRL(totalValor)}</span>
+            </div>
           </div>
 
-          <div className="table-responsive table-card-ux">
-            <table>
-              <thead>
-                <tr>
-                  <th>Colaborador</th>
-                  <th>Matrícula</th>
-                  <th>Diurnas</th>
-                  <th>Noturnas</th>
-                  <th>Total Diárias</th>
-                  <th>Valor (R$ {Number(valorDiaria).toLocaleString('pt-BR', { minimumFractionDigits: 2 })})</th>
-                </tr>
-              </thead>
-              <tbody>
-                {colaboradores.map(c => {
-                  const d = contagem[c.id]?.d || 0
-                  const n = contagem[c.id]?.n || 0
-                  const t = d + n
-                  if (t === 0) return null; // Melhor visualização não mostrar quem tem 0 no mês
-                  const v = t * valorDiaria
-                  return (
-                    <tr key={c.id}>
-                      <td data-label="Colaborador" style={{ fontWeight: 500 }}>{c.nome}</td>
-                      <td data-label="Matrícula">{c.mat || '-'}</td>
-                      <td data-label="Diurnas"><span className="badge badge-d">{d}</span></td>
-                      <td data-label="Noturnas"><span className="badge badge-n">{n}</span></td>
-                      <td data-label="Total Diárias"><span className="badge-count">{t}</span></td>
-                      <td data-label="Valor"><span className="badge-money">{fmtBRL(v)}</span></td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan={4} className="hide-on-mobile" style={{ textAlign: 'right', color: '#6b6b67', fontSize: 13 }}>Total do período</td>
-                  <td data-label="Total de Diárias Geral"><span className="badge-count">{totalDiarias}</span></td>
-                  <td data-label="Soma de Valores Geral"><span className="badge-money">{fmtBRL(totalValor)}</span></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-
-          <div className="grand-total">
-            <span className="grand-total-label">Total geral a pagar — {MESES[mes]} {ano}</span>
-            <span className="grand-total-value">{fmtBRL(totalValor)}</span>
+          <div style={{ marginTop: '32px' }}>
+            <div className="resumo-title">Acionamentos do Mês ({colaboradores.length})</div>
+            {colaboradores.map(c => {
+              const d = contagem[c.id]?.d || 0;
+              const n = contagem[c.id]?.n || 0;
+              const t = d + n;
+              if (t === 0) return null;
+              const v = t * valorDiaria;
+              return (
+                <div key={c.id} className="acionamento-item">
+                  <div className="ac-row">
+                    <span className="ac-date">{c.nome}</span>
+                    <span className="ac-value">{fmtBRL(v)}</span>
+                  </div>
+                  <div className="ac-row" style={{ marginTop: 8 }}>
+                    <div style={{ display: 'flex', gap: 16 }}>
+                      <div>
+                        <span style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block' }}>MATRÍCULA</span>
+                        <span className="ac-user">{c.mat || 'S/N'}</span>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block' }}>DIÁRIAS</span>
+                        <span style={{ fontSize: 14, fontWeight: 500 }}>{t}</span>
+                      </div>
+                    </div>
+                    <span style={{ fontSize: 13, background: 'rgba(6, 182, 212, 0.1)', color: 'var(--accent)', padding: '4px 8px', borderRadius: 6, fontWeight: 500 }}>
+                      D: {d} | N: {n}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </>
       )}

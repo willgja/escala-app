@@ -81,87 +81,70 @@ export default function Escala() {
 
   return (
     <div>
-      <div className="semana-nav">
-        <button className="btn btn-outline btn-sm" onClick={() => navSemana(-1)}>← Anterior</button>
-        <div className="semana-label">
+      <div className="escala-semana-nav" style={{marginTop: 16}}>
+        <button className="nav-arrow" onClick={() => navSemana(-1)}>&#x276E;</button>
+        <div className="nav-date-label">
           {fmtDia(currentSemana)} – {fmtDia(addDias(currentSemana, 6))}
         </div>
-        <button className="btn btn-outline btn-sm" onClick={() => navSemana(1)}>Próxima →</button>
+        <button className="nav-arrow" onClick={() => navSemana(1)}>&#x276F;</button>
       </div>
 
-      <div className="filter-bar">
+      <div style={{ marginBottom: 20 }}>
         <input
           type="text"
           placeholder="Filtrar colaborador..."
           value={busca}
           onChange={e => setBusca(e.target.value)}
-          style={{ maxWidth: 220 }}
+          style={{ width: '100%', maxWidth: '100%' }}
         />
-        <span style={{ fontSize: 12, color: '#6b6b67' }}>
-          <span className="badge badge-d">D</span> Diurno &nbsp;
-          <span className="badge badge-n">N</span> Noturno &nbsp; — clique para escalar
-        </span>
+        <div className="cal-legend">
+          <div className="legend-item">
+            <div className="legend-color" style={{background: 'var(--accent)'}}></div> Diurno
+          </div>
+          <div className="legend-item">
+            <div className="legend-color" style={{background: 'var(--warning)'}}></div> Noturno
+          </div>
+        </div>
       </div>
 
       {lista.length === 0 ? (
         <div className="empty-state">Nenhum colaborador cadastrado.</div>
       ) : (
-        <>
-          <div className="table-responsive no-scrollbar-on-mobile">
-            <div className="escala-grid" style={gridStyle}>
-              <div className="eg-cell eg-header">Colaborador</div>
-              {days.map(d => (
-                <div key={d.key} className="eg-cell eg-header">{d.label}</div>
-              ))}
-
-              {lista.map(c => (
-                <div key={c.id} className="escala-employee-row">
-                  <div className="eg-cell eg-name">{c.nome}</div>
-                  <div className="eg-days-wrapper">
-                    {days.map(d => {
-                      const sd = getSlot(c.id, d.key, 'd')
-                      const sn = getSlot(c.id, d.key, 'n')
-                      return (
-                        <div key={d.key} className="eg-cell eg-day-cell">
-                          <div className="mobile-day-label">{d.label}</div>
-                          <div className="eg-turno">
-                            <div
-                              className={`slot ${sd ? 'slot-d' : 'slot-empty'}`}
-                              onClick={() => toggleSlot(c.id, d.key, 'd')}
-                              title={sd ? 'Remover diurno' : 'Escalar diurno'}
-                            >D</div>
-                            <div
-                              className={`slot ${sn ? 'slot-n' : 'slot-empty'}`}
-                              onClick={() => toggleSlot(c.id, d.key, 'n')}
-                              title={sn ? 'Remover noturno' : 'Escalar noturno'}
-                            >N</div>
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              ))}
+        <div style={{ marginTop: 24 }}>
+          {lista.map(c => (
+            <div key={c.id} className="calendario-card">
+              <div style={{ fontSize: 18, color: 'var(--text-main)', marginBottom: 16, fontWeight: 700 }}>
+                {c.nome}
+              </div>
+              <div className="cal-header-row">
+                {days.map(d => <div key={`hdr-${d.key}`} className="cal-header-day">{d.label.split(' ')[0]}</div>)}
+              </div>
+              <div className="cal-days-grid">
+                {days.map(d => {
+                  const diaNum = d.label.split(' ')[1] ? d.label.split(' ')[1].split('/')[0] : '0';
+                  const sd = getSlot(c.id, d.key, 'd');
+                  const sn = getSlot(c.id, d.key, 'n');
+                  
+                  return (
+                    <div key={d.key} className="cal-day-box">
+                      <span className="cal-day-num">{diaNum}</span>
+                      <div className="cal-actions">
+                        <button 
+                          className={`micro-btn ${sd ? 'd-on' : ''}`} 
+                          onClick={() => toggleSlot(c.id, d.key, 'd')}
+                        >D</button>
+                        <button 
+                          className={`micro-btn ${sn ? 'n-on' : ''}`} 
+                          onClick={() => toggleSlot(c.id, d.key, 'n')}
+                        >N</button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-
-          <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 8 }}>Resumo da semana</div>
-          <div className="resumo-semana">
-            {lista.map(c => {
-              let dt = 0, nt = 0
-              days.forEach(d => { dt += getSlot(c.id, d.key, 'd'); nt += getSlot(c.id, d.key, 'n') })
-              const t = dt + nt
-              if (t === 0) return null
-              return (
-                <div key={'res-'+c.id} className="resumo-item">
-                  <span className="resumo-nome">{c.nome}</span>
-                  <span className="badge-count">{t} diária(s)</span>
-                  <span className="badge-money">{fmtBRL(t * valorDiaria)}</span>
-                </div>
-              )
-            })}
-          </div>
-        </>
+          ))}
+        </div>
       )}
     </div>
   )

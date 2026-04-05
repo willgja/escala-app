@@ -27,9 +27,12 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="app-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1 className="app-title">Gestão de Escalas</h1>
-        <button className="btn btn-outline btn-sm" onClick={handleLogout}>Sair</button>
+      <header className="header-top">
+        <div className="header-user">
+          <span className="header-user-name">Administrador Geral</span>
+          <span className="header-user-cpf">Gestão de Escalas Central</span>
+        </div>
+        <button className="btn-sair" onClick={handleLogout}>Sair</button>
       </header>
 
       <nav className="tabs">
