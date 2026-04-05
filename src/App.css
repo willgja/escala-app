@@ -242,4 +242,48 @@ tfoot td { border-top: 2px solid #e2e8f0; border-bottom: none; font-weight: 600;
     gap: 12px;
     align-items: flex-start;
   }
+
+  /* --- CARD UI FOR TABLES (Fechamento) --- */
+  .table-card-ux table, .table-card-ux thead, .table-card-ux tbody, .table-card-ux th, .table-card-ux td, .table-card-ux tr {
+    display: block;
+  }
+  .table-card-ux thead tr { display: none; }
+  .table-card-ux tr {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 16px; padding: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .table-card-ux td {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px solid #f1f5f9; text-align: right; margin: 0;
+  }
+  .table-card-ux td:last-child { border-bottom: none; }
+  .table-card-ux td:before {
+    content: attr(data-label); font-weight: 600; color: #64748b; text-align: left; padding-right: 15px; font-size: 14px;
+  }
+  .hide-on-mobile { display: none !important; }
+
+  /* --- CARD UI FOR ESCALA GRID --- */
+  .no-scrollbar-on-mobile { overflow-x: hidden; }
+  .escala-grid { display: flex !important; flex-direction: column; gap: 16px; width: 100%; }
+  .eg-header { display: none; }
+  .escala-employee-row {
+    display: block !important; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .eg-name {
+    font-weight: 700; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 12px;
+    font-size: 18px; text-align: center; justify-content: center;
+  }
+  .eg-days-wrapper {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  }
+  .eg-day-cell {
+    border: 1px solid #f1f5f9; border-radius: 8px; padding: 10px; background: #f8fafc;
+    flex: 1 1 calc(50% - 12px); display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .mobile-day-label {
+    font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px; display: block;
+  }
 }
+
+.mobile-day-label { display: none; }

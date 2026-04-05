@@ -109,7 +109,7 @@ export default function Fechamento() {
             Fechamento — {MESES[mes]} {ano}
           </div>
 
-          <div className="table-responsive">
+          <div className="table-responsive table-card-ux">
             <table>
               <thead>
                 <tr>
@@ -130,21 +130,21 @@ export default function Fechamento() {
                   const v = t * valorDiaria
                   return (
                     <tr key={c.id}>
-                      <td style={{ fontWeight: 500 }}>{c.nome}</td>
-                      <td>{c.mat || '-'}</td>
-                      <td><span className="badge badge-d">{d}</span></td>
-                      <td><span className="badge badge-n">{n}</span></td>
-                      <td><span className="badge-count">{t}</span></td>
-                      <td><span className="badge-money">{fmtBRL(v)}</span></td>
+                      <td data-label="Colaborador" style={{ fontWeight: 500 }}>{c.nome}</td>
+                      <td data-label="Matrícula">{c.mat || '-'}</td>
+                      <td data-label="Diurnas"><span className="badge badge-d">{d}</span></td>
+                      <td data-label="Noturnas"><span className="badge badge-n">{n}</span></td>
+                      <td data-label="Total Diárias"><span className="badge-count">{t}</span></td>
+                      <td data-label="Valor"><span className="badge-money">{fmtBRL(v)}</span></td>
                     </tr>
                   )
                 })}
               </tbody>
               <tfoot>
                 <tr>
-                  <td colSpan={4} style={{ textAlign: 'right', color: '#6b6b67', fontSize: 13 }}>Total do período</td>
-                  <td><span className="badge-count">{totalDiarias}</span></td>
-                  <td><span className="badge-money">{fmtBRL(totalValor)}</span></td>
+                  <td colSpan={4} className="hide-on-mobile" style={{ textAlign: 'right', color: '#6b6b67', fontSize: 13 }}>Total do período</td>
+                  <td data-label="Total de Diárias Geral"><span className="badge-count">{totalDiarias}</span></td>
+                  <td data-label="Soma de Valores Geral"><span className="badge-money">{fmtBRL(totalValor)}</span></td>
                 </tr>
               </tfoot>
             </table>
