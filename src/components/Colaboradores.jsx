@@ -3,19 +3,29 @@ import { api } from '../api'
 
 export default function Colaboradores() {
   const [nome, setNome] = useState('')
-  const [mat, setMat] = useState('')
+  const [cpf, setCpf] = useState('')
   const [func, setFunc] = useState('')
+
+  const handleCpfChange = (e) => {
+    let v = e.target.value.replace(/\D/g, '')
+    if (v.length <= 11) {
+      v = v.replace(/(\d{3})(\d)/, '$1.$2')
+      v = v.replace(/(\d{3})(\d)/, '$1.$2')
+      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+      setCpf(v)
+    }
+  }
 
   async function adicionar() {
     if (!nome.trim()) { alert('Informe o nome.'); return }
     try {
       await api.post('/colaboradores', { 
         nome: nome.trim(), 
-        mat: mat.trim(), 
+        mat: cpf.trim(), /* saved in DB inside 'mat' column */
         func: func.trim() 
       })
       alert('Colaborador cadastrado com sucesso')
-      setNome(''); setMat(''); setFunc('')
+      setNome(''); setCpf(''); setFunc('')
     } catch (error) {
       alert('Erro ao salvar colaborador')
     }
@@ -31,8 +41,8 @@ export default function Colaboradores() {
             <input type="text" placeholder="Ex: João Silva" value={nome} onChange={e => setNome(e.target.value)} />
           </div>
           <div className="form-col">
-            <label className="form-label">Matrícula</label>
-            <input type="text" placeholder="Ex: 001" value={mat} onChange={e => setMat(e.target.value)} />
+            <label className="form-label">CPF</label>
+            <input type="text" placeholder="000.000.000-00" value={cpf} onChange={handleCpfChange} />
           </div>
           <div className="form-col">
             <label className="form-label">Função</label>

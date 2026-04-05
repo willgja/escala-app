@@ -112,7 +112,7 @@ export default function Fechamento() {
               <span className="resumo-value clamp">{totalDiarias}</span>
             </div>
             <div className="resumo-box">
-              <span className="resumo-label">Acionamentos</span>
+              <span className="resumo-label">Operadores</span>
               <span className="resumo-value clamp">{colaboradores.filter(c => ((contagem[c.id]?.d || 0) + (contagem[c.id]?.n || 0)) > 0).length}</span>
             </div>
             <div className="resumo-box">
@@ -126,7 +126,7 @@ export default function Fechamento() {
           </div>
 
           <div style={{ marginTop: '32px' }}>
-            <div className="resumo-title">Acionamentos do Mês ({colaboradores.length})</div>
+            <div className="resumo-title">Operadores do Mês ({colaboradores.length})</div>
             {colaboradores.map(c => {
               const d = contagem[c.id]?.d || 0;
               const n = contagem[c.id]?.n || 0;
@@ -142,7 +142,7 @@ export default function Fechamento() {
                   <div className="ac-row" style={{ marginTop: 8 }}>
                     <div style={{ display: 'flex', gap: 16 }}>
                       <div>
-                        <span style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block' }}>MATRÍCULA</span>
+                        <span style={{ fontSize: 11, color: 'var(--text-muted)', display: 'block' }}>CPF</span>
                         <span className="ac-user">{c.mat || 'S/N'}</span>
                       </div>
                       <div>

@@ -59,7 +59,7 @@
   padding: 14px 16px;
   border-radius: 12px;
   border: 1px solid var(--border-color);
-  font-size: 15px;
+  font-size: 16px; /* Prevents auto-zoom on iOS */
   background: var(--bg-color);
   color: var(--text-main);
 }
